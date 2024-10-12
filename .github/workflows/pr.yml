@@ -1,0 +1,24 @@
+name: Run tests against pull request
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npm install
+    - name: Build code
+      run: npm run build
+    - name: Test code
+      run: npm run test
+    - name: Test our patience
+      uses: ./dist/
+      with:
+        url: http://goose.us
+        timeout: 1200000
+        interval: 3000
