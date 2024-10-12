@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint src",
+    "pretty": "prettier --write src/*.ts",
     "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test spec/*.spec.ts"
   },
   "dependencies": {
