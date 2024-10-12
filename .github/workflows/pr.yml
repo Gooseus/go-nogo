@@ -19,6 +19,6 @@ jobs:
     - name: Test our patience
       uses: ./dist/
       with:
-        url: http://goose.us
+        url: https://goose.us
         timeout: 12000
         interval: 2000
