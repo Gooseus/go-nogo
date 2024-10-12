@@ -1,76 +1,25 @@
-import * as core from "@actions/core";
-import * as http from "@actions/http-client";
+import { setOutput, setFailed } from "@actions/core";
 
-const SUPPORTED_METHODS = ["GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"];
+import type { PollerOptions } from "./types/index.js";
 
-function getInput(name: string, required = false): string {
-  return core.getInput(name, { required, trimWhitespace: true });
-}
-
-function getInputNumber(name: string, defaultValue = 0): number {
-  const input = core.getInput(name, { required: false, trimWhitespace: true });
-  if (input === "" || isNaN(+input)) {
-    return defaultValue;
-  }
-  return +input;
-}
-
-async function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { Poller } from "./poller.js";
+import { HttpClient } from "./http.js";
+import { parseInputs } from "./utils.js";
 
 async function main() {
   try {
-    const url = getInput("url", true);
-    const method = getInput("method")?.toUpperCase() || "GET";
-    const expectBody = getInput("expectBody");
-    const expectBodyRe = getInput("expectBodyRegex");
-    const expectStatus = getInputNumber("expectStatus", 200);
-    const timeout = getInputNumber("timeout", 60000);
-    const interval = getInputNumber("interval", 1000);
+    const options: PollerOptions = parseInputs();
+    const client = new HttpClient();
+    const poller = new Poller(client, options);
 
-    if (!SUPPORTED_METHODS.includes(method)) {
-      core.setFailed("Specify a valid HTTP method.");
-      return;
-    }
+    const response = await poller.poll();
 
-    const client = new http.HttpClient();
-    const startTime = Date.now();
-    const bodyRegex = expectBodyRe && new RegExp(expectBodyRe);
-
-    let error: Error | undefined;
-
-    while (Date.now() - startTime < timeout) {
-      try {
-        const response = await client.request(method, url, null, {});
-        const status = response.message.statusCode;
-
-        if (status === expectStatus) {
-          const body = await response.readBody();
-
-          if (expectBody && expectBody !== body) {
-            throw new Error(`Expected body: ${expectBody}, actual body: ${body}`);
-          }
-          if (bodyRegex && !bodyRegex.test(body)) {
-            throw new Error(`Expected body regex: ${expectBodyRe}, actual body: ${body}`);
-          }
-
-          core.setOutput("response", body);
-          core.setOutput("headers", response.message.rawHeaders);
-
-          return;
-        }
-      } catch (e) {
-        // core.debug(e.message);
-        error = e;
-      }
-
-      await delay(interval);
-    }
-
-    core.setFailed(error?.message || "Waiting exceeded timeout.");
-  } catch (error) {
-    core.setFailed(error.message);
+    setOutput("response", response.body);
+    setOutput("headers", response.headers);
+  } catch (error: unknown) {
+    if(error instanceof SyntaxError) setFailed("Invalid JSON in expectedResponses input.");
+    if(error instanceof Error) setFailed(error?.message);
+    if(typeof error === "string") setFailed(error);
   }
 }
 

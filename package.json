@@ -1,16 +1,22 @@
 {
-  "name": "poll-endpoint",
+  "name": "poll-resource",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "ncc build src/index.ts"
+    "build": "tsc",
+    "lint": "eslint src",
+    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test spec/*.spec.ts"
   },
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@actions/http-client": "^2.1.0"
+    "@actions/core": "^1.11.1",
+    "@actions/http-client": "^2.2.3"
   },
   "devDependencies": {
-    "@types/node": "^15.12.2",
-    "@vercel/ncc": "^0.36.1",
-    "typescript": "^4.3.2"
+    "@eslint/js": "^9.12.0",
+    "@types/node": "^22.7.5",
+    "eslint": "^9.12.0",
+    "globals": "^15.11.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.8.1"
   }
 }

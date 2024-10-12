@@ -1,8 +1,19 @@
-# Poll Endpoint GitHub Action
+# Patience GitHub Action
+
+> [!NOTE]
+> Project forked from/inspired by https://github.com/artiz/poll-endpoint and https://github.com/emilioschepis/wait-for-endpoint, many thanks!
+
+> [!WARNING]
+> Uses node22 and experimental-strip-types in tests, not patience for lagging tech.
+
+> [!CAUTION]
+> Currently WIP and not yet published, likely things wrong/inaccureate, do not use.
 
 This action polls a specified HTTP or HTTPS endpoint until it responds with the expected status code or the timeout is exceeded.
 
-This action can be particularly useful to check the status of a container launched with the `-d` flag as part of a CI workflow.
+This action can be particularly useful to check the status of a container launched with the `-d` flag as part of a CI workflow, or a service container that lies about its readiness, or, eventually, to wait for any kind of signals to proceed sucessfully, continue to wait, or eventually fail.
+
+That last bit is a work in progress, but for now you should be able to poll an enpoint on an interval for a certain amount of time before either failing or proceeding.
 
 ## Inputs
 
@@ -34,15 +45,15 @@ This action can be particularly useful to check the status of a container launch
 
 **Optional** The interval at which the polling should happen (in milliseconds). Default `"1000"`.
 
-## Example usage
+## Example usage (when available)
 
 ```yml
-uses: artiz/poll-endpoint@1.0.2
+uses: gooseus/patience@1.0.0
 with:
-  url: http://localhost:8080
+  url: http://localhost:8080/healthz
   method: GET
   expect-status: 200
-  expect-response-regex: "\"revision\":\"1\.00\""
+  expect-response-regex: "\"status\":\"(OK|SUCCESS)\""
   timeout: 60000
   interval: 1000
 ```
