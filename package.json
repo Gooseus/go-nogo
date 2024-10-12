@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp action.yml dist/",
     "lint": "eslint src",
     "pretty": "prettier --write src/*.ts",
-    "test": "node --test dist/spec/*.spec.js"
+    "test": "node --test dist/spec/*.spec.js",
+    "copy-action": ""
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
