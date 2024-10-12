@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import type { Response } from '../src/types/index.ts';
+import type { Response } from '../types/index.js';
 
 import { MockClient } from './mocks/client.js';
-import { Poller } from '../src/poller.ts';
+import { Poller } from '../poller.js';
 
 test('Poller succeeds when expected status and body are received', async () => {
   const responses: Response[] = [

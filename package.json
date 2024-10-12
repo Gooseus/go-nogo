@@ -6,7 +6,7 @@
     "build": "tsc",
     "lint": "eslint src",
     "pretty": "prettier --write src/*.ts",
-    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test spec/*.spec.ts"
+    "test": "node --test dist/spec/*.spec.js"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",

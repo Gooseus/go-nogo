@@ -1,4 +1,6 @@
-export class MockClient {
+import { Client } from "../../types/index.js";
+
+export class MockClient implements Client {
     responses;
     callCount = 0;
     constructor(responses) {
