@@ -14,11 +14,14 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build code
-      run: npm run build
+    - name: Build code for testing
+      run: npm run build:test
 
     - name: Test code
       run: npm run test
+
+    - name: Build code for distribution
+      run: npm run build
 
     - name: Test our patience
       uses: ./dist/
@@ -26,3 +29,5 @@ jobs:
         url: https://goose.us
         timeout: 12000
         interval: 2000
+        expectStatus: 200
+
