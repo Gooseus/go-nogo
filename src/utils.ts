@@ -10,7 +10,8 @@ export function parseInputs(): PollerOptions {
   const expectBody = getInput('expectBody');
   const expectBodyRegex = getInput('expectBodyRegex');
 
-  const parsedExpectedResponses: ExpectedResponse[] = JSON.parse(getInput('expectedResponses'));
+  const expectedResponsesInput = getInput('expectedResponses');
+  const parsedExpectedResponses: ExpectedResponse[] = expectedResponsesInput ? JSON.parse(expectedResponsesInput): [];
   const expectedResponses = parsedExpectedResponses.map((item) => ({
     ...item,
     bodyRegex: item.bodyRegex ? new RegExp(item.bodyRegex) : undefined,
