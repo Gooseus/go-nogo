@@ -24,7 +24,7 @@ jobs:
       run: npm run build
 
     - name: Test our patience
-      uses: .
+      uses: ./
       with:
         url: https://goose.us
         timeout: 12000
