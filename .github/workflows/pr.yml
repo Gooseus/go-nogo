@@ -20,7 +20,7 @@ jobs:
     - name: Test code
       run: npm run test
 
-    - name: Test our patience
+    - name: Test our Go/no-go action
       uses: ./
       with:
         url: https://goose.us

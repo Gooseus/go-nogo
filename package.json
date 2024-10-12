@@ -1,5 +1,5 @@
 {
-  "name": "patience",
+  "name": "go-nogo",
   "private": true,
   "scripts": {
     "lint": "eslint src",

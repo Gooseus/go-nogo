@@ -1,4 +1,4 @@
-name: "Patience"
+name: "Go/no-go"
 description: "A GitHub Action that polls an HTTP resource until it becomes available. Based on artiz/poll-endpoint and emilioschepis/wait-for-endpoint"
 author: "Shawn Marincas"
 branding:
