@@ -20,9 +20,6 @@ jobs:
     - name: Test code
       run: npm run test
 
-    - name: Build code for distribution
-      run: npm run build
-
     - name: Test our patience
       uses: ./
       with:
