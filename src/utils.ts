@@ -11,7 +11,7 @@ export function parseInputs(): PollerOptions {
   const expectBodyRegex = getInput('expectBodyRegex');
 
   const expectedResponsesInput = getInput('expectedResponses');
-  const parsedExpectedResponses: ExpectedResponse[] = expectedResponsesInput ? JSON.parse(expectedResponsesInput): [];
+  const parsedExpectedResponses: ExpectedResponse[] = expectedResponsesInput ? JSON.parse(expectedResponsesInput) : [];
   const expectedResponses = parsedExpectedResponses.map((item) => ({
     ...item,
     bodyRegex: item.bodyRegex ? new RegExp(item.bodyRegex) : undefined,

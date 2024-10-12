@@ -9,7 +9,7 @@ export class HttpClient implements Client {
   }
 
   async request(method: string, url: string): Promise<Response> {
-    if(process.env.NODE_ENV === 'development' && url.includes('localhost')) url = url.replace('localhost', '127.0.0.1');
+    if (process.env.NODE_ENV === 'development' && url.includes('localhost')) url = url.replace('localhost', '127.0.0.1');
 
     const response = await this.client.request(method, url, null, {});
     const statusCode = response.message.statusCode || 0;

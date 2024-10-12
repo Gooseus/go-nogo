@@ -34,7 +34,7 @@ export class Poller {
     throw lastError || new Error('Polling exceeded timeout.');
   }
 
-  private evaluateResponse(response: Response) : 'success' | 'fail' | 'poll' {
+  private evaluateResponse(response: Response): 'success' | 'fail' | 'poll' {
     const { expectedResponses } = this.options;
     const { statusCode, body } = response;
 
