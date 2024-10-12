@@ -3,9 +3,6 @@
 > [!NOTE]
 > Project forked from/inspired by https://github.com/artiz/poll-endpoint and https://github.com/emilioschepis/wait-for-endpoint, many thanks!
 
-> [!WARNING]
-> Uses node22 and experimental-strip-types in tests, not patience for lagging tech.
-
 > [!CAUTION]
 > Currently WIP and not yet published, likely things wrong/inaccureate, do not use.
 
