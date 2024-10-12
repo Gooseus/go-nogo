@@ -20,5 +20,5 @@ jobs:
       uses: ./dist/
       with:
         url: http://goose.us
-        timeout: 1200000
-        interval: 3000
+        timeout: 12000
+        interval: 2000
