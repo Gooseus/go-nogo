@@ -34,28 +34,23 @@ export class Poller {
     throw lastError || new Error('Polling exceeded timeout.');
   }
 
-  private evaluateResponse(response: Response): 'success' | 'fail' | 'poll' {
+  private evaluateResponse(response: Response) : 'success' | 'fail' | 'poll' {
     const { expectedResponses } = this.options;
+    const { statusCode, body } = response;
 
-    if (expectedResponses && expectedResponses.length > 0) {
-      for (const expected of expectedResponses) {
-        const statusMatch = expected.status === undefined || expected.status === response.statusCode;
-        const bodyMatch = expected.body === undefined || expected.body === response.body;
-        const bodyRegexMatch = expected.bodyRegex === undefined || expected.bodyRegex.test(response.body);
+    if (expectedResponses?.length > 0) {
+      for (const { action, bodyRegex, body: expectedBody, status } of expectedResponses) {
+        const statusMatch = !status || status === statusCode;
+        const bodyMatch = !expectedBody || expectedBody === body;
+        const bodyRegexMatch = !bodyRegex || bodyRegex.test(body);
 
-        if (statusMatch && (bodyMatch || bodyRegexMatch)) {
-          return expected.action;
-        }
+        if (statusMatch && (bodyMatch || bodyRegexMatch)) return action || 'success';
       }
     } else {
-      // Default behavior
-      if (response.statusCode === this.options.expectStatus) {
-        if (this.options.expectBody && this.options.expectBody !== response.body) {
-          return 'poll';
-        }
-        if (this.options.expectBodyRegex && !this.options.expectBodyRegex.test(response.body)) {
-          return 'poll';
-        }
+      // No expected responses
+      if (statusCode === this.options.expectStatus) {
+        if (this.options?.expectBody !== body) return 'poll';
+        if (this.options.expectBodyRegex?.test(body)) return 'poll';
         return 'success';
       }
     }
