@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2015",
-    "lib": ["ESNext"],
-    "moduleResolution": "node",
+    "target": "es2022",
+    "lib": ["ES2022"],
+    "module": "ES2015",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "rootDir": "src",
     "outDir": "dist"
-  }
+  },
+  "include": ["src"],
 }

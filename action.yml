@@ -1,9 +1,9 @@
-name: "Poll Endpoint"
-description: "A GitHub Action that polls a specified HTTP endpoint until it becomes available. Based on emilioschepis/wait-for-endpoint"
-author: "Artem Kustikov"
+name: "Go/no-go"
+description: "A GitHub Action that polls an HTTP resource until it becomes available. Based on artiz/poll-endpoint and emilioschepis/wait-for-endpoint"
+author: "Shawn Marincas"
 branding:
-  icon: clock
-  color: green
+  icon: activity
+  color: gray-dark
 inputs:
   url:
     description: The URL to poll
@@ -36,5 +36,5 @@ outputs:
     headers:
         description: 'HTTP Response Headers'
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
