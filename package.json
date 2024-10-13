@@ -1,16 +1,20 @@
 {
   "name": "go-nogo",
   "private": true,
+  "type": "module",
   "scripts": {
     "lint": "eslint src",
     "pretty": "prettier --write src/*.ts",
     "build": "ncc build src/index.ts",
-    "build:test": "tsc --outDir test --esModuleInterop src/**/*.ts",
-    "test": "node --test test/spec/*.spec.js"
+    "build:test": "tsc --outDir test",
+    "test": "node --test test/spec/*.spec.js",
+    "test:local": "npm run build:test && node --test test/spec/*.spec.js",
+    "test:single": "npm run build:test && node --test --test-name-pattern='is a hold when the body does not match any pattern' test/spec/*.spec.js"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/http-client": "^2.2.3"
+    "@actions/http-client": "^2.2.3",
+    "node-jq": "^6.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",

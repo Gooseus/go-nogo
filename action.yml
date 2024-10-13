@@ -1,40 +1,61 @@
 name: "Go/no-go"
-description: "A GitHub Action that polls an HTTP resource until it becomes available. Based on artiz/poll-endpoint and emilioschepis/wait-for-endpoint"
+description: "A GitHub Action that checks an HTTP resource for Go or No-go signals. Based on artiz/poll-endpoint and emilioschepis/wait-for-endpoint"
 author: "Shawn Marincas"
 branding:
-  icon: activity
+  icon: watch
   color: gray-dark
 inputs:
   url:
-    description: The URL to poll
+    description: URL of go/no-go indicator resource
     required: true
   method:
-    description: The HTTP method to use
+    description: HTTP method to use for request
     required: false
     default: GET
-  expectStatus:
-    description: The HTTP status that is expected
+  action:
+    description: The action, either "go" or "nogo", that is taken when checks pass with the opposite taken on fail (pessimistic or optimistic)
     required: false
-    default: "200"
-  expectBody:
-    description: Response body that is expected
-    required: false
-  expectBodyRegex:
-    description: Regex to match expected response body
-    required: false
+    default: "go"
   timeout:
-    description: The maximum time the polling is allowed to run for (in milliseconds)
+    description: Time to wait for a Go/No-Go indicator (in milliseconds), timeout is a fail 
     required: false
     default: "60000"
   interval:
     description: The interval at which the polling should happen (in milliseconds)
     required: false
     default: "1000"
+  passStatus:
+    description: Delimited list of HTTP statuses that indicate a pass
+    required: false
+    default: "200"
+  failStatus:
+    description: Delimited list of HTTP statuses that indicate a fail
+    required: false
+    default: "500"
+  bodyJqFilter:
+    description: jq filter body to check for an indicator (JSON parse error will throw and always be a "No-go")
+    required: false
+  passBodyPattern:
+    description: String or Regex that indicates a pass when found in the body (or at the `bodyJqFilter`, when available)
+    required: false
+  failBodyPattern:
+    description: String or Regex that indicates a fail when found in the body (or at the `bodyJqFilter`, when available)
+    required: false
+  outputs:
+    description: Delimited list of response fields (or "all") to include in the ouputs
+    required: false
+    default: "all"
 outputs:
+    status:
+        description: 'HTTP Response Status'
     response:
-        description: 'HTTP Response Content'
+        description: 'HTTP Response Body'
     headers:
         description: 'HTTP Response Headers'
+    passes:
+        description: 'List of pass captures from a regex passBodyPattern'
+    fails:
+        description: 'List of fail captures from a regex failBodyPattern'
 runs:
   using: node20
   main: dist/index.js

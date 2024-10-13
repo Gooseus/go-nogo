@@ -1,7 +1,7 @@
 import { getInput } from '@actions/core';
-import type { PollerOptions, ExpectedResponse } from './types/index.js';
+import type { ActionOptions, ExpectedResponse } from './types/index.js';
 
-export function parseInputs(): PollerOptions {
+export function parseInputs(): ActionOptions {
   const url = getInput('url', { required: true });
   const method = (getInput('method') || 'get').toUpperCase();
   const timeout = parseInt(getInput('timeout') || '60000');
