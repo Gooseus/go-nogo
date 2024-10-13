@@ -23,6 +23,9 @@ jobs:
     - name: Test code
       run: npm run test
 
+    - name: Build code for deployment
+      run: npm run build
+
     - name: Test Go/no-go action
       uses: ./
       with:
