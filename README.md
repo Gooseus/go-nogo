@@ -45,7 +45,7 @@ That last bit is a work in progress, but for now you should be able to poll an e
 ## Example usage (when available)
 
 ```yml
-uses: gooseus/go-nogo@1.0.1
+uses: gooseus/go-nogo@0.9.1
 with:
   url: http://localhost:8080/healthz
   method: GET

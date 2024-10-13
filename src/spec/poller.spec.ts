@@ -5,7 +5,7 @@ import type { Response } from '../types/index.js';
 import { MockClient } from './mocks/client.js';
 import { Poller } from '../poller.js';
 
-const TEST_URL = "http://goose.us";
+const TEST_URL = "http://google.com";
 
 test('Poller succeeds when expected status and body are received', async () => {
   const responses: Response[] = [

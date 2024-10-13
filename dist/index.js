@@ -27533,6 +27533,35 @@ module.exports = parseParams
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
@@ -27603,23 +27632,27 @@ class Poller {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@actions/http-client/lib/index.js
-var lib = __nccwpck_require__(4844);
+;// CONCATENATED MODULE: external "node:https"
+const external_node_https_namespaceObject = require("node:https");
+var external_node_https_default = /*#__PURE__*/__nccwpck_require__.n(external_node_https_namespaceObject);
 ;// CONCATENATED MODULE: ./src/http.ts
 
 class HttpClient {
-    client;
-    constructor() {
-        this.client = new lib.HttpClient();
-    }
     async request(method, url) {
-        if (process.env.NODE_ENV === 'development' && url.includes('localhost'))
-            url = url.replace('localhost', '127.0.0.1');
-        const response = await this.client.request(method, url, null, {});
-        const statusCode = response.message.statusCode || 0;
-        const headers = response.message.headers;
-        const body = await response.readBody();
-        return { statusCode, headers, body };
+        return new Promise((resolve, reject) => {
+            const req = external_node_https_default().request(url, { method: "GET" }, (res) => {
+                const statusCode = res.statusCode;
+                const headers = res.headers;
+                if (statusCode !== 200)
+                    reject(new Error(`Request failed with status code ${statusCode}`));
+                let body = '';
+                res.on('error', reject);
+                res.on('data', (chunk) => { body += chunk.toString(); });
+                res.on('end', () => resolve({ statusCode, headers, body }));
+            });
+            req.on('error', reject);
+            req.end();
+        });
     }
 }
 
