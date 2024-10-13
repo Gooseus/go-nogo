@@ -32,5 +32,4 @@ jobs:
         url: https://goose.us
         timeout: 12000
         interval: 2000
-        expectStatus: 200
-
+        passStatus: 200
