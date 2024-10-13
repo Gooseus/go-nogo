@@ -1,5 +1,8 @@
-import { createRequire as __WEBPACK_EXTERNAL_createRequire } from "module";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);import { createRequire as __WEBPACK_EXTERNAL_createRequire } from "module";
 /******/ var __webpack_modules__ = ({
 
 /***/ 4914:
@@ -32427,10 +32430,14 @@ class Evaluator {
         this.config = config;
     }
     evalStatus(status) {
-        const { passStatus, failStatus } = this.config;
-        if (failStatus?.map(String).includes(status.toString()))
+        let { passStatus, failStatus } = this.config;
+        if (!Array.isArray(failStatus))
+            failStatus = [failStatus];
+        if (failStatus.map(String).includes(status.toString()))
             return [FAIL, [status.toString(), failStatus]];
-        if (passStatus?.map(String).includes(status.toString()))
+        if (!Array.isArray(passStatus))
+            passStatus = [passStatus];
+        if (passStatus.map(String).includes(status.toString()))
             return [PASS, [status.toString(), passStatus]];
         return [HOLD];
     }
