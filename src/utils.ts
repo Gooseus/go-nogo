@@ -1,30 +1,30 @@
 import { getInput } from '@actions/core';
-import type { PollerOptions, ExpectedResponse } from './types/index.js';
+import type { ActionOptions } from './types/index.js';
 
-export function parseInputs(): PollerOptions {
+export function parseInputs(): ActionOptions {
   const url = getInput('url', { required: true });
   const method = (getInput('method') || 'get').toUpperCase();
   const timeout = parseInt(getInput('timeout') || '60000');
   const interval = parseInt(getInput('interval') || '1000');
-  const expectStatus = parseInt(getInput('expectStatus') || '200');
-  const expectBody = getInput('expectBody');
-  const expectBodyRegex = getInput('expectBodyRegex');
-
-  const expectedResponsesInput = getInput('expectedResponses');
-  const parsedExpectedResponses: ExpectedResponse[] = expectedResponsesInput ? JSON.parse(expectedResponsesInput) : [];
-  const expectedResponses = parsedExpectedResponses.map((item) => ({
-    ...item,
-    bodyRegex: item.bodyRegex ? new RegExp(item.bodyRegex) : undefined,
-  }));
+  const action = getInput('action') || 'go';
+  const passStatus = parseInt(getInput('passStatus') || '200');
+  const failStatus = parseInt(getInput('failStatus') || '500');
+  const passBodyPattern = getInput('passBodyPattern');
+  const failBodyPattern = getInput('failBodyPattern');
+  const bodyJqFilter = getInput('bodyJqFilter');
+  const outputs = getInput('outputs') || 'all';
 
   return {
-    method,
     url,
-    expectStatus,
-    expectBody,
-    expectBodyRegex: expectBodyRegex ? new RegExp(expectBodyRegex) : undefined,
+    method,
+    action,
     timeout,
     interval,
-    expectedResponses,
+    passStatus,
+    failStatus,
+    passBodyPattern,
+    failBodyPattern,
+    bodyJqFilter,
+    outputs,
   };
 }

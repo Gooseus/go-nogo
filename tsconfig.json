@@ -6,7 +6,8 @@
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "skipLibCheck": true,
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts"],
 }
