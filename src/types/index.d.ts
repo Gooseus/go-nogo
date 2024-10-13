@@ -8,8 +8,8 @@ export interface ActionOptions {
 
   bodyJqFilter?: string;
 
-  failStatus?: number;
-  passStatus?: string;
+  failStatus?: number | string;
+  passStatus?: number | string;
   failBodyPattern?: RegExp | string;
   passBodyPattern?: RegExp | string;
   

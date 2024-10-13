@@ -16,13 +16,16 @@ describe('Evaluator', () => {
       });
     });
     it('is a pass when the status code matches a code in passStatus', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: '', headers: {} }), PASS);
+      const result = await evaluator.evaluate({ statusCode: 200, body: '', headers: {} });
+      assert.equal(result[0], PASS);
     });
     it('is a fail when the status code matches a code in failStatus', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 500, body: '', headers: {} }), FAIL);
+      const result = await evaluator.evaluate({ statusCode: 500, body: '', headers: {} });
+      assert.equal(result[0], FAIL);
     });
     it('is a hold when the status code does not match any code in passStatus or failStatus', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 404, body: '', headers: {} }), HOLD);
+      const result = await evaluator.evaluate({ statusCode: 404, body: '', headers: {} });
+      assert.equal(result[0], HOLD);
     });
   });
   
@@ -36,13 +39,16 @@ describe('Evaluator', () => {
       });
     });
     it('is a pass when the body matches a simple passBodyPattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'OK', headers: {} }), PASS);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'OK', headers: {} });
+      assert.equal(result[0], PASS);
     })
     it('is a fail when the body matches a simple failBodyPattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'Error', headers: {} }), FAIL);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'Error', headers: {} });
+      assert.equal(result[0], FAIL);
     });
     it('is a hold when the body does not match any pattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'Not Found', headers: {} }), HOLD);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'Not Found', headers: {} });
+      assert.equal(result[0], HOLD);
     });
   });
 
@@ -57,13 +63,16 @@ describe('Evaluator', () => {
       });
     });
     it('is a fail when the body is not parseable by jq for the bodyJqFilter', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'Not JSON', headers: {} }), FAIL);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'Not JSON', headers: {} });
+      assert.equal(result[0], FAIL);
     });
     it('is a pass when the bodyJqFilter matches the passBodyPattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: '{"data": {"message": "OK"}}', headers: {} }), PASS);
+      const result = await evaluator.evaluate({ statusCode: 200, body: '{"data": {"message": "OK"}}', headers: {} });
+      assert.equal(result[0], PASS);
     });
     it('is a fail when the bodyJqFilter matches the failBodyPattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: '{"data": {"message": "Error"}}', headers: {} }), FAIL);
+      const result = await evaluator.evaluate({ statusCode: 200, body: '{"data": {"message": "Error"}}', headers: {} });
+      assert.equal(result[0], FAIL);
     });
   });
 
@@ -77,13 +86,16 @@ describe('Evaluator', () => {
       });
     });
     it('is a pass when the body matches a regex passBodyPattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'OK', headers: {} }), PASS);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'OK', headers: {} });
+      assert.equal(result[0], PASS);
     })
     it('is a fail when the body matches a regex failBodyPattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'Error', headers: {} }), FAIL);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'Error', headers: {} });
+      assert.equal(result[0], FAIL);
     });
     it('is a hold when the body does not match any pattern', async () => {
-      assert.equal(await evaluator.evaluate({ statusCode: 200, body: 'Not Found', headers: {} }), HOLD);
+      const result = await evaluator.evaluate({ statusCode: 200, body: 'Not Found', headers: {} });
+      assert.equal(result[0], HOLD);
     });
   });
 });

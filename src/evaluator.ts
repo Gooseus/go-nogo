@@ -8,10 +8,14 @@ export class Evaluator {
   constructor(private config) {}
 
   evalStatus(status: string | number): EvaluationResult {
-    const { passStatus, failStatus } = this.config;
+    let { passStatus, failStatus } = this.config;
 
-    if (failStatus?.map(String).includes(status.toString())) return [ FAIL, [status.toString(), failStatus] ];
-    if (passStatus?.map(String).includes(status.toString())) return [ PASS, [status.toString(), passStatus] ];
+
+    if (!Array.isArray(failStatus)) failStatus = [failStatus];
+    if (failStatus.map(String).includes(status.toString())) return [ FAIL, [status.toString(), failStatus] ];
+
+    if (!Array.isArray(passStatus)) passStatus = [passStatus];
+    if (passStatus.map(String).includes(status.toString())) return [ PASS, [status.toString(), passStatus] ];
 
     return [ HOLD ];
   }

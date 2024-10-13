@@ -19,6 +19,9 @@ jobs:
 
     - name: Test code
       run: npm run test
+    
+    - name: Build code
+      run: npm run build
 
     - name: Test Go/no-go action
       uses: ./
@@ -26,5 +29,4 @@ jobs:
         url: https://goose.us
         timeout: 12000
         interval: 2000
-        expectStatus: 200
-
+        passStatus: 200
